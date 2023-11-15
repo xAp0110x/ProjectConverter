@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -40,35 +42,41 @@
 
         <div class="convertion">
             <div class="convertion-from">
-                <p>У меня есть</p>
+                <p class="top-text">У меня есть</p>
 
-                <ul class="select-from">
-                    <li>RUB</li>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>GBP</li>
-                </ul>
+                <div class="select-from">
+                    <div><button>AZN</button></div>
+                    <div><button>USD</button></div>
+                    <div><button>EUR</button></div>
+                    <div><button class="selected">RUB</button></div>
+                  </div>
 
-                <input type="number" id="first-input">
+                <div class="convertor-left">
+                    <input type="text" id="first-input">
 
-                <p>1 RUB = 0.0135 USD</p>
+                    <p id="left-rate">1 RUB = 0.0135 USD</p>
+                </div>
             </div>
 
             <div class="convertion-to">
-                <p>Хочу приобрести</p>
+                <p class="top-text">Хочу приобрести</p>
 
-                <ul class="select-to">
-                    <li>RUB</li>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>GBP</li>
-                </ul>
+                <div class="select-to">
+                    <div><button>AZN</button></div>
+                    <div><button class="selected">USD</button></div>
+                    <div><button>EUR</button></div>
+                    <div><button>RUB</button></div>
+                  </div>
 
-                <input type="number" id="second-input">
+                <div class="convertor-right">
+                    <input type="text" id="second-input">
 
-                <p>1 USD = 73.8896 RUB</p>
+                    <p id="right-rate">1 USD = 73.8896 RUB</p>
+                </div>
+
             </div>
         </div>
     </main>
 </body>
+
 </html>

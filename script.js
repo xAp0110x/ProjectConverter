@@ -1,39 +1,69 @@
-let input1 = document.getElementById('first-input');
-let input2 = document.getElementById('second-input');
+let convert = converterStockAPI;
+const moneyFromButtons = document.querySelectorAll(".select-from button");
+const moneyToButtons = document.querySelectorAll(".select-to button");
+const leftRate = document.getElementById('left-rate');
+const rightRate = document.getElementById('right-rate');
 
-function converterRapidApi(from, to, amount) 
-{
+const apiKey = "e8090bf2230057779ccc1f61f3ac856f";
+const apiUrl = "http://api.exchangerate.host/convert";
 
-    const url = 'https://community-neutrino-currency-conversion.p.rapidapi.com/convert';
-    const options = {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'X-RapidAPI-Key': 'ef1d961cc7msh0e20587c31e620ap187f9fjsnfb3c85ba3479',
-            'X-RapidAPI-Host': 'community-neutrino-currency-conversion.p.rapidapi.com'
-        },
-        body: new URLSearchParams({
-            'from-value': amount,
-            'from-type': from,
-            'to-type': to
-        })
-    };
+// Convertion func
+async function converterStockAPI(from, to, amount) {
+
+    const url = `${apiUrl}?access_key=${apiKey}&from=${from}&to=${to}&amount=${amount}`;
+    let result;
 
     try {
-        fetch(url, options)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data.result);
-            });
-    } catch (error) {
-        console.error(error);
-    }
+        const response = await fetch(url);
+        const data = await response.json();
 
+        return data.result;
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+    }
 }
 
-let convert = converterRapidApi;
+// converterStockAPI('RUB', 'USD', 1817)
+//     .then(result => {
+//         console.log(result); 
+//     });
 
+//Update currency rate func
+async function renewCurrencyRates(){
+    let firstCurrency = document.querySelector('.select-from button.selected').innerText;
+    let secondCurrency = document.querySelector('.select-to button.selected').innerText;
 
-convert('RUB', 'USD', '181');
+    let url = `${apiUrl}?access_key=${apiKey}&from=${firstCurrency}&to=${secondCurrency}&amount=1`;
+
+    let response = await fetch(url);
+    let data = await response.json();
+
+    let firstRate = data.info.quote;
+
+    url = `${apiUrl}?access_key=${apiKey}&from=${secondCurrency}&to=${firstCurrency}&amount=1`;
+
+    response = await fetch(url);
+    data = await response.json();
+
+    let secondRate = data.info.quote;
+
+    leftRate.textContent = `1 ${firstCurrency} = ${firstRate} ${secondCurrency}`;
+    rightRate.textContent = `1 ${secondCurrency} = ${secondRate} ${firstCurrency}`;   
+}
+renewCurrencyRates();
+
+//Selected btn func
+function selectButtonClick(button, buttons) {
+    buttons.forEach((btn) => btn.classList.remove("selected"));
+    button.classList.add("selected");
+    renewCurrencyRates();
+}
+//Event click on button
+moneyFromButtons.forEach((button) => {
+    button.addEventListener("click", () => selectButtonClick(button, moneyFromButtons));
+});
+moneyToButtons.forEach((button) => {
+    button.addEventListener("click", () => selectButtonClick(button, moneyToButtons));
+});
+
