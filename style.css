@@ -106,6 +106,16 @@ input{
     font-weight: 700;
 }
 
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .convertor-left, .convertor-right{
     width: 245px;
     height: 102px;
