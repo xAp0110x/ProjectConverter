@@ -97,3 +97,18 @@ secondInput.addEventListener('input', async function (event) {
 
     if (data.result != undefined) { firstInput.value = data.result.toFixed(4); }
 });
+
+//Check for correct of input and operating with
+function checkInput(event) {
+  let sanitizedValue = event.target.value.replace(/[^0-9.,]/g, '');
+
+  sanitizedValue = sanitizedValue.replace(/,/g, '.');
+
+  let dotCount = sanitizedValue.split('.').length - 1;
+  if (dotCount > 1) {sanitizedValue = sanitizedValue.slice(0, -1);}
+
+  event.target.value = sanitizedValue;
+}
+
+firstInput.addEventListener('input', checkInput);
+secondInput.addEventListener('input', checkInput);
